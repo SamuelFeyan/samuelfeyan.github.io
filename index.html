@@ -3,80 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Physics Portfolio</title>
+    <title>Samuel Feyan - Physics Portfolio</title>
     <style>
+        /* Global Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text */
+            scroll-behavior: smooth;
         }
+
+        /* Header Styles */
         header {
-            background: #00509e;
-            color: #fff;
-            padding: 1rem;
+            background: #1e1e1e;
+            color: #ffffff;
+            padding: 2rem;
             text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
+
+        /* Navigation */
         nav {
             display: flex;
             justify-content: center;
-            background: #0074d9;
-            padding: 0.5rem;
+            background: #2b2b2b;
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
         }
         nav a {
-            color: white;
+            color: #00bcd4;
             text-decoration: none;
-            margin: 0 1rem;
+            margin: 0 1.5rem;
             font-weight: bold;
+            transition: color 0.3s ease;
         }
         nav a:hover {
-            text-decoration: underline;
+            color: #ff9800;
         }
+
+        /* Section Styles */
         section {
-            padding: 2rem;
+            padding: 3rem 2rem;
+            margin: 2rem auto;
+            max-width: 1200px; /* Increased max width for wider content */
+            border-radius: 8px;
+            background: #1c1c1c;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* PDF Embed Container */
+        .pdf-container {
+            display: flex;
+            flex-wrap: nowrap; /* Ensures PDFs remain in a single row */
+            justify-content: space-between; /* Maximizes use of available space */
+            gap: 1rem;
         }
         iframe {
-            width: 100%;
-            height: 500px;
-            border: none;
+            width: 48%; /* Slightly less than half for spacing */
+            height: 600px; /* Increased height for better viewability */
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #2b2b2b;
         }
+
+        /* Footer */
         footer {
             text-align: center;
-            padding: 1rem;
-            background: #00509e;
-            color: yellow;
+            padding: 2rem;
+            background: #1e1e1e;
+            color: #9e9e9e;
+            font-size: 0.9rem;
+            margin-top: 3rem;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Your Name</h1>
-        <p>Undergraduate Physics Major | Aspiring Astrophysicist</p>
+        <h1>Samuel Feyan</h1>
+        <p>Undergraduate Physics Major and Math Minor | Aspiring Astrophysicist</p>
     </header>
     <nav>
         <a href="#about">About Me</a>
         <a href="#projects">Research & Projects</a>
         <a href="#contact">Contact</a>
     </nav>
+
     <section id="about">
         <h2>About Me</h2>
-        <p>Hello! I'm an undergraduate physics major with a strong passion for astrophysics. My journey began in a small rural town, where I developed an intense interest in understanding the universe despite limited academic resources. I am now pursuing research opportunities to study celestial phenomena and contribute to the field of astronomy.</p>
+        <p>
+            I'm an undergraduate physics major at Clemson University whose interests lie in multi-messenger astrophysics, specifically compact astrophysical 
+            binaries and their associated electromagnetic and gravitational wave emissions. I study massive black hole binary inspirals embedded in accretion disks
+            to probe their coupled interactions and how they can lead to electromagnetic and gravitational wave observables. I utilize our Clemson research group's
+            GPU-accelerated hydrodynamics code Sailfish and run simulations on Clemson's Palmetto compute cluster.  
+        </p>
     </section>
+
     <section id="projects">
         <h2>Research & Projects</h2>
-        <p>Below is one of my recent works:</p>
-        <iframe src="2410.04961v1.pdf"></iframe>
+        <p>Below are two of my recent works:</p>
+        <div class="pdf-container">
+            <iframe src="2410.04961v1.pdf#zoom=page-width"></iframe>
+            <iframe src="2410.04961v1.pdf#zoom=page-width"></iframe>
+        </div>
         <p>Other projects include X-ray astronomy analysis and computational simulations in Python and C++.</p>
     </section>
+
     <section id="contact">
         <h2>Contact</h2>
         <p>Email: your_email@example.com</p>
-        <p>LinkedIn: <a href="https://www.linkedin.com" target="_blank">linkedin.com/in/yourprofile</a></p>
+        <p>
+            LinkedIn: 
+            <a href="https://www.linkedin.com" target="_blank">linkedin.com/in/yourprofile</a>
+        </p>
     </section>
+
     <footer>
-        <p>&copy; 2024 Your Name. All Rights Reserved.</p>
+        <p>&copy; 2024 Samuel Feyan. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        // Smooth scrolling function for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80, // Offset for sticky header
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+
