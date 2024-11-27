@@ -71,16 +71,37 @@
         /* PDF Embed Container */
         .pdf-container {
             display: flex;
-            flex-wrap: nowrap; /* Ensures PDFs remain in a single row */
-            justify-content: space-between; /* Maximizes use of available space */
+            justify-content: space-between; /* Ensures PDFs remain in a single row */
             gap: 1rem;
         }
         iframe {
-            width: 48%; /* Slightly less than half for spacing */
+            width: 48%; /* Adjust to ensure PDFs are side by side */
             height: 600px; /* Increased height for better viewability */
             border: 1px solid #333;
             border-radius: 4px;
             background: #2b2b2b;
+        }
+
+        /* New Section for Recent Research (Split into two subsections) */
+        .research-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .research-text {
+            width: 48%; /* Ensure both subsections are side by side */
+            background: #2b2b2b;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Image Styles for Research Topics */
+        .research-image {
+            margin-top: 1.5rem;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
         }
 
         /* Footer */
@@ -101,8 +122,9 @@
     </header>
     <nav>
         <a href="#about">About Me</a>
-        <a href="#projects">Research & Projects</a>
-        <a href="#contact">Contact</a>
+        <a href="#research">Recent Research</a> <!-- Updated link for Recent Research -->
+        <a href="#projects">Recent Publications</a> <!-- Updated link for Recent Publications -->
+        <a href="#contact-info">Contact/Information</a> <!-- Updated link for Contact and Information -->
     </nav>
 
     <section id="about">
@@ -115,22 +137,48 @@
         </p>
     </section>
 
+    <!-- New Section for Recent Research -->
+    <section id="research">
+        <h2>Recent Research</h2>
+        <div class="research-container">
+            <div class="research-text">
+                <h3>Research Topic 1</h3>
+                <p>
+                    This section can describe your most recent research project or publication. 
+                    Include details about your methodology, findings, and contributions to the field of astrophysics or physics.
+                </p>
+                <!-- Image for Research Topic 1 -->
+                <img src="smbh.png" alt="Research Topic 1 Image" class="research-image">
+            </div>
+            <div class="research-text">
+                <h3>Research Topic 2</h3>
+                <p>
+                    This side can be used for another research project or further details about ongoing work. 
+                    Feel free to elaborate on any current studies, collaborations, or projects you are involved in.
+                </p>
+                <!-- Image for Research Topic 2 -->
+                <img src="chandra.png" alt="Research Topic 2 Image" class="research-image">
+            </div>
+        </div>
+    </section>
+
     <section id="projects">
-        <h2>Research & Projects</h2>
+        <h2>Recent Publications</h2>
         <p>Below are two of my recent works:</p>
         <div class="pdf-container">
-            <iframe src="2410.04961v1.pdf#zoom=page-width"></iframe>
+            <iframe src="NEW_CenA_X_ray_UCDs-1.pdf#zoom=page-width"></iframe>
             <iframe src="2410.04961v1.pdf#zoom=page-width"></iframe>
         </div>
         <p>Other projects include X-ray astronomy analysis and computational simulations in Python and C++.</p>
     </section>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: your_email@example.com</p>
+    <!-- Updated Contact Section -->
+    <section id="contact-info">
+        <h2>Contact/Information</h2>
+        <p>Email: SamuelLFeyan@gmail.com</p>
         <p>
-            LinkedIn: 
-            <a href="https://www.linkedin.com" target="_blank">linkedin.com/in/yourprofile</a>
+            OrcidID: 
+            <a href="https://orcid.org/0009-0006-4435-0418" target="_blank">https://orcid.org/0009-0006-4435-0418</a>
         </p>
     </section>
 
@@ -155,4 +203,3 @@
     </script>
 </body>
 </html>
-
