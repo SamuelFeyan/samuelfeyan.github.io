@@ -11,8 +11,8 @@
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #121212;
-            color: #e0e0e0;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text */
             scroll-behavior: smooth;
         }
 
@@ -51,7 +51,7 @@
         section {
             padding: 3rem 2rem;
             margin: 2rem auto;
-            max-width: 1200px;
+            max-width: 1200px; /* Increased max width for wider content */
             border-radius: 8px;
             background: #1c1c1c;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
@@ -66,6 +66,42 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        /* PDF Embed Container */
+        .pdf-container {
+            display: flex;
+            justify-content: space-between; /* Ensures PDFs remain in a single row */
+            gap: 1rem;
+        }
+        iframe {
+            width: 48%; /* Adjust to ensure PDFs are side by side */
+            height: 600px; /* Increased height for better viewability */
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #2b2b2b;
+        }
+
+        /* New Section for Recent Research (Split into two subsections) */
+        .research-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .research-text {
+            width: 48%; /* Ensure both subsections are side by side */
+            background: #2b2b2b;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Image Styles for Research Topics */
+        .research-image {
+            margin-top: 1.5rem;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
         }
 
         /* Footer */
@@ -86,28 +122,43 @@
     </header>
     <nav>
         <a href="#about">About Me</a>
-        <a href="#research">Recent Research</a>
-        <a href="#projects">Recent Publications</a>
-        <a href="#full-page-pdf">Standalone PDF</a> <!-- New link added -->
-        <a href="#contact-info">Contact/Information</a>
+        <a href="#research">Recent Research</a> <!-- Updated link for Recent Research -->
+        <a href="#projects">Recent Publications</a> <!-- Updated link for Recent Publications -->
+        <a href="#full-page-pdf">Standalone PDF</a> <!-- New link for standalone PDF -->
+        <a href="#contact-info">Contact/Information</a> <!-- Updated link for Contact and Information -->
     </nav>
 
     <section id="about">
         <h2>About Me</h2>
         <p>
-            I'm an undergraduate physics major at Clemson University. My research interests lie in compact objects and their associated electromagnetic and gravitational wave emission.
+            I'm an undergraduate physics major at Clemson University. My research interests lie in compact objects and their associated electromagnetic and gravitational wave emission. I am also particularly interested in the plasma dynamics that occur around these compact objects and compact binaries and any multi-messenger observables that arise from them. The rich, complex dynamics of these systems especially fascinate me, given the many intriguing aspects that remain unexplored.
         </p>
     </section>
 
     <section id="research">
         <h2>Recent Research</h2>
-        <!-- Content omitted for brevity -->
+        <div class="research-container">
+            <div class="research-text">
+                <h3>Supermassive Black Hole Binary Inspirals</h3>
+                <p>
+                    Under the direction of Dr. Jonathan Zrake, I utilized our research group's GPU-accelerated hydrodynamical code Sailfish alongside the Clemson Palmetto computing cluster to model supermassive black hole binary inspirals embedded in a gas accretion disk. I probed to what extent the orbital Mach number of the disk affects the torque exerted on the binary. This led to a novel multi-messenger prediction that links the pre-merger gravitational waveform dephasing of the binary to the post-merger electromagnetic rebrightening timescale.
+                </p>
+                <img src="smbh.png" alt="Research Topic 1 Image" class="research-image">
+            </div>
+            <div class="research-text">
+                <h3>Supermassive Black Holes in Ultra Compact Dwarfs</h3>
+                <p>
+                    Under the direction of Dr. Jay Strader and Dr. Ryan Urquhart through a collaboration with Michigan State University, I studied new and archival Chandra and XMM-Newton X-ray data of the galaxy Centaurus A, seen below. This was to probe for the existence of off-center supermassive black holes in ultra compact dwarfs, which are believed to be tidally stripped remnant cores of previously accreted galaxies, lying in the outer halo of the galaxy.
+                </p>
+                <img src="chandra.png" alt="Research Topic 2 Image" class="research-image">
+            </div>
+        </div>
     </section>
 
     <section id="projects">
         <h2>Recent Publications</h2>
-        <p>Below are two of my recent publications:</p>
-        <div>
+        <p>Below are two of my recent publications. One of which has been submitted to the Monthly Notices of the Royal Astronomical Society and the other to the American Astronomical Society.</p>
+        <div class="pdf-container">
             <iframe src="NEW_CenA_X_ray_UCDs-1.pdf#zoom=page-width"></iframe>
             <iframe src="2410.04961v1.pdf#zoom=page-width"></iframe>
         </div>
@@ -116,7 +167,7 @@
     <!-- New Section for Standalone PDF -->
     <section id="full-page-pdf">
         <h2>Standalone PDF</h2>
-        <p>You can view the full-page version of my publication here:</p>
+        <p>You can view one of my publications as a standalone PDF by clicking the link below:</p>
         <a href="NEW_CenA_X_ray_UCDs-1.pdf" target="_blank">View Full Page PDF</a>
     </section>
 
@@ -132,5 +183,21 @@
     <footer>
         <p>&copy; 2024 Samuel Feyan. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        // Smooth scrolling function for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80, // Offset for sticky header
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
