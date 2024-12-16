@@ -73,27 +73,17 @@
             text-align: center;
         }
 
-        /* About Me Section Layout (Image and Text in Same Box) */
+        /* About Me Section Layout (Text Only) */
         .about-box {
-            display: flex;
-            align-items: center;
-            gap: 2rem; /* Space between image and text */
-        }
-
-        /* Image for About Me */
-        .about-image {
-            width: 12%; /* Reduced to make the image slightly smaller */
-            height: auto;
-            max-width: 100%;
-            border-radius: 8px;
+            display: block;
         }
 
         /* Text Box for About Me */
         .about-text {
-            width: 90%; /* Adjust the width to 90% */
-            text-align: left; /* Align text to the left */
-            margin: 0; /* Remove any extra margins */
-            padding: 0; /* Ensure no padding */
+            width: 100%;
+            text-align: left;
+            margin: 0 auto;
+            padding: 0;
         }
 
         .about-text p {
@@ -150,7 +140,7 @@
 <body>
     <header>
         <h1>Samuel Feyan</h1>
-        <p>Undergraduate Physics Major and Math Minor | Aspiring Astrophysicist</p>
+        <p>Undergraduate Physics Major and Math Minor | Computational Astrophysicist</p>
     </header>
     <nav>
         <a href="#about">About Me</a>
@@ -163,9 +153,6 @@
     <section id="about">
         <h2>About Me</h2>
         <div class="about-box">
-            <!-- Image for About Me -->
-            <img src="samuelfeyanimage.jpg" alt="Headshot of Samuel Feyan" class="about-image">
-
             <!-- Text for About Me -->
             <div class="about-text">
                 <p>
@@ -226,7 +213,7 @@
     <!-- Updated Contact Section -->
     <section id="contact-info">
         <h2>Contact/Information</h2>
-        <p>Email: SamuelLFeyan@gmail.com</p>
+        <p>Email: SFeyan@clemson.edu</p>
         <p>
             OrcidID: 
             <a href="https://orcid.org/0009-0006-4435-0418" target="_blank">https://orcid.org/0009-0006-4435-0418</a>
@@ -254,8 +241,6 @@
             });
         });
     </script>
-
-
 
 </body>
 </html>
