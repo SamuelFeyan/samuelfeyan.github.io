@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Samuel Feyan is a theoretical astrophysicist studying compact objects and their accretion dynamics."
+    >
+
+    <title>Samuel Feyan | Computational Astrophysics</title>
+
+    <style>
+        :root {
+            --background: #111315;
+            --background-light: #16191c;
+
+            --text-primary: #e8e7e3;
+            --text-secondary: #b6b8b7;
+            --text-muted: #858a8c;
+
+            --accent: #89a9c2;
+            --accent-light: #abc2d3;
+
+            --border: #2b3034;
+            --border-light: #363c40;
+
+            --page-width: 1040px;
+            --text-width: 740px;
+            --header-height: 72px;
+
+            --serif:
+                Georgia,
+                "Times New Roman",
+                Times,
+                serif;
+
+            --sans-serif:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Helvetica,
+                Arial,
+                sans-serif;
+
+            --transition: 180ms ease;
+        }
+
+
+        /* =========================================================
+           GLOBAL STYLES
+           ========================================================= */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: calc(var(--header-height) + 28px);
+        }
+
+        body {
+            margin: 0;
+
+            color: var(--text-primary);
+            background: var(--background);
+
+            font-family: var(--sans-serif);
+            font-size: 16px;
+            line-height: 1.75;
+
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        a {
+            color: var(--accent-light);
+            text-decoration-thickness: 1px;
+            text-underline-offset: 4px;
+        }
+
+        a:hover {
+            color: var(--text-primary);
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        ::selection {
+            color: #ffffff;
+            background: rgba(137, 169, 194, 0.45);
+        }
+
+        .page-container {
+            width: min(
+                calc(100% - 40px),
+                var(--page-width)
+            );
+
+            margin-inline: auto;
+        }
+
+        .section {
+            padding: 96px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-heading {
+            margin: 0 0 38px;
+
+            font-family: var(--serif);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 400;
+            line-height: 1.15;
+            letter-spacing: -0.025em;
+        }
+
+        .section-introduction {
+            max-width: var(--text-width);
+            margin: -18px 0 48px;
+
+            color: var(--text-secondary);
+            font-family: var(--serif);
+            font-size: 1.12rem;
+            line-height: 1.8;
+        }
+
+        .small-heading {
+            margin: 0 0 12px;
+
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+
+        /* =========================================================
+           NAVIGATION
+           ========================================================= */
+
+        .site-header {
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+
+            width: 100%;
+
+            border-bottom: 1px solid transparent;
+
+            background: rgba(17, 19, 21, 0.92);
+            backdrop-filter: blur(10px);
+
+            transition: border-color var(--transition);
+        }
+
+        .site-header.scrolled {
+            border-color: var(--border);
+        }
+
+        .navigation {
+            display: flex;
+            min-height: var(--header-height);
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+        }
+
+        .site-name {
+            color: var(--text-primary);
+
+            font-family: var(--serif);
+            font-size: 1.16rem;
+            text-decoration: none;
+        }
+
+        .site-name:hover {
+            color: var(--accent-light);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+
+            margin: 0;
+            padding: 0;
+
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+
+            font-size: 0.88rem;
+            text-decoration: none;
+
+            transition: color var(--transition);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-primary);
+        }
+
+        .menu-button {
+            display: none;
+            width: 42px;
+            height: 42px;
+            padding: 0;
+
+            border: 0;
+
+            color: var(--text-primary);
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .menu-line,
+        .menu-line::before,
+        .menu-line::after {
+            display: block;
+            width: 22px;
+            height: 1px;
+            margin-inline: auto;
+
+            background: currentColor;
+
+            transition:
+                transform var(--transition),
+                opacity var(--transition);
+        }
+
+        .menu-line {
+            position: relative;
+        }
+
+        .menu-line::before,
+        .menu-line::after {
+            position: absolute;
+            left: 0;
+            content: "";
+        }
+
+        .menu-line::before {
+            transform: translateY(-6px);
+        }
+
+        .menu-line::after {
+            transform: translateY(6px);
+        }
+
+        .menu-button[aria-expanded="true"] .menu-line {
+            background: transparent;
+        }
+
+        .menu-button[aria-expanded="true"] .menu-line::before {
+            transform: rotate(45deg);
+        }
+
+        .menu-button[aria-expanded="true"] .menu-line::after {
+            transform: rotate(-45deg);
+        }
+
+
+        /* =========================================================
+           INTRODUCTION
+           ========================================================= */
+
+        .introduction {
+            display: flex;
+            min-height: 88vh;
+
+            padding:
+                calc(var(--header-height) + 90px)
+                0
+                90px;
+
+            align-items: center;
+        }
+
+        .introduction-layout {
+            display: grid;
+            grid-template-columns:
+                minmax(0, 1.35fr)
+                minmax(250px, 0.65fr);
+
+            gap: clamp(50px, 10vw, 120px);
+            align-items: center;
+        }
+
+        .intro-label {
+            margin: 0 0 20px;
+
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+        }
+
+        .intro-title {
+            margin: 0;
+
+            font-family: var(--serif);
+            font-size: clamp(3.4rem, 9vw, 7.3rem);
+            font-weight: 400;
+            line-height: 0.97;
+            letter-spacing: -0.055em;
+        }
+
+        .intro-description {
+            max-width: 700px;
+            margin: 30px 0 0;
+
+            color: var(--text-secondary);
+            font-family: var(--serif);
+            font-size: clamp(1.15rem, 2vw, 1.35rem);
+            line-height: 1.72;
+        }
+
+        .intro-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .intro-links a {
+            font-size: 0.9rem;
+        }
+
+
+        /* =========================================================
+           HEADSHOT
+           ========================================================= */
+
+        .headshot-figure {
+            width: min(100%, 310px);
+            margin: 0 auto;
+        }
+
+        .headshot-frame {
+            position: relative;
+            padding: 10px;
+
+            border: 1px solid var(--border-light);
+            background: var(--background-light);
+        }
+
+        .headshot-frame::before {
+            position: absolute;
+            z-index: -1;
+            top: 18px;
+            right: -18px;
+            bottom: -18px;
+            left: 18px;
+
+            border: 1px solid var(--border);
+            content: "";
+        }
+
+        .headshot-image {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+
+            object-fit: cover;
+            object-position: center top;
+
+            filter:
+                saturate(0.82)
+                contrast(1.02);
+        }
+
+        .headshot-caption {
+            margin: 18px 0 0;
+
+            color: var(--text-muted);
+            font-family: var(--serif);
+            font-size: 0.78rem;
+            font-style: italic;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+
+        /* =========================================================
+           ABOUT
+           ========================================================= */
+
+        .about-layout {
+            display: grid;
+            grid-template-columns:
+                minmax(190px, 0.35fr)
+                minmax(0, 1fr);
+
+            gap: clamp(40px, 9vw, 100px);
+            align-items: start;
+        }
+
+        .about-sidebar {
+            color: var(--text-muted);
+            font-size: 0.86rem;
+            line-height: 1.7;
+        }
+
+        .about-sidebar section {
+            margin-bottom: 30px;
+        }
+
+        .about-sidebar section:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-sidebar p {
+            margin: 0;
+        }
+
+        .about-text {
+            max-width: var(--text-width);
+        }
+
+        .about-text p {
+            margin: 0 0 1.5em;
+
+            color: var(--text-secondary);
+            font-family: var(--serif);
+            font-size: 1.15rem;
+            line-height: 1.85;
+        }
+
+        .about-text p:first-child {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+        }
+
+
+        /* =========================================================
+           RESEARCH
+           ========================================================= */
+
+        .research-list {
+            display: flex;
+            flex-direction: column;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .research-entry:first-child {
+            order: 2;
+        }
+
+        .research-entry:nth-child(2) {
+            order: 1;
+        }
+
+        .research-entry {
+            display: grid;
+            grid-template-columns: 62px minmax(0, 1fr) 290px;
+            gap: clamp(26px, 4vw, 48px);
+
+            padding: 64px 0;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .research-number {
+            color: var(--text-muted);
+            font-family: var(--serif);
+            font-size: 0.88rem;
+            font-style: italic;
+        }
+
+        .research-content h3 {
+            margin: 0 0 18px;
+
+            font-family: var(--serif);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 400;
+            line-height: 1.25;
+        }
+
+        .research-content p {
+            max-width: 650px;
+            margin: 0;
+
+            color: var(--text-secondary);
+            font-family: var(--serif);
+            font-size: 1.04rem;
+            line-height: 1.82;
+        }
+
+
+        /* =========================================================
+           ANIMATION CONTAINERS
+           ========================================================= */
+
+        .research-animation {
+            position: relative;
+            align-self: center;
+            min-height: 250px;
+            overflow: hidden;
+
+            border: 1px solid var(--border);
+
+            background:
+                radial-gradient(
+                    circle at 50% 48%,
+                    rgba(137, 169, 194, 0.075),
+                    transparent 65%
+                ),
+                var(--background-light);
+        }
+
+        .research-animation svg {
+            display: block;
+            width: 100%;
+            height: 250px;
+        }
+
+        .svg-background-star {
+            fill: #8da4b4;
+            opacity: 0.22;
+        }
+
+        .svg-background-star.faint {
+            opacity: 0.1;
+        }
+
+
+        /* =========================================================
+           UNSTABLE MASS TRANSFER ANIMATION
+           ========================================================= */
+
+        .donor-star {
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .donor-star-glow {
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .mass-binary-system {
+            transform-box: view-box;
+            transform-origin: 235px 125px;
+        }
+
+        .mass-stream {
+            fill: none;
+            stroke: url("#mass-stream-gradient");
+            stroke-width: 4;
+            stroke-linecap: round;
+
+            stroke-dasharray: 7 9;
+            opacity: 0.78;
+
+            animation: mass-stream-flow 1.15s linear infinite;
+        }
+
+        .mass-stream-particle {
+            fill: #f1c58d;
+            filter: url("#mass-particle-glow");
+
+            offset-path:
+                path(
+                    "M 96 126 C 127 109, 175 108, 208 117 C 220 121, 230 124, 235 125"
+                );
+
+            offset-rotate: 0deg;
+            opacity: 0;
+        }
+
+        .mass-stream-particle-one {
+            animation: mass-particle-flow 2.4s linear infinite;
+        }
+
+        .mass-stream-particle-two {
+            animation: mass-particle-flow 2.4s linear 0.6s infinite;
+        }
+
+        .mass-stream-particle-three {
+            animation: mass-particle-flow 2.4s linear 1.2s infinite;
+        }
+
+        .mass-stream-particle-four {
+            animation: mass-particle-flow 2.4s linear 1.8s infinite;
+        }
+
+        .mass-disk-sheet {
+            fill: url("#mass-disk-gradient");
+            opacity: 0.92;
+        }
+
+        .mass-disk-rim {
+            fill: none;
+            stroke: rgba(218, 232, 238, 0.5);
+            stroke-width: 1;
+        }
+
+        .mass-disk-front {
+            fill: url("#mass-disk-gradient");
+            stroke: rgba(242, 226, 194, 0.56);
+            stroke-width: 1;
+            opacity: 0.96;
+        }
+
+        .mass-disk-texture {
+            fill: none;
+            stroke: rgba(242, 226, 194, 0.66);
+            stroke-width: 1.25;
+            stroke-linecap: round;
+            stroke-dasharray: 11 8;
+
+            animation: mass-disk-flow 1.4s linear infinite;
+        }
+
+        .mass-disk-texture.secondary {
+            stroke: rgba(141, 181, 199, 0.52);
+            stroke-dasharray: 8 10;
+            animation-duration: 1.9s;
+            animation-direction: reverse;
+        }
+
+        .mass-black-hole {
+            fill: #020304;
+            stroke: #6f7d84;
+            stroke-width: 1.1;
+        }
+
+        .mass-photon-ring {
+            fill: none;
+            stroke: #dca36c;
+            stroke-width: 1.4;
+            opacity: 0.75;
+        }
+
+        @keyframes mass-stream-flow {
+            to {
+                stroke-dashoffset: -32;
+            }
+        }
+
+        @keyframes mass-particle-flow {
+            0% {
+                offset-distance: 0%;
+                opacity: 0;
+                transform: scale(0.7);
+            }
+
+            12% {
+                opacity: 1;
+            }
+
+            82% {
+                opacity: 1;
+            }
+
+            100% {
+                offset-distance: 100%;
+                opacity: 0;
+                transform: scale(0.35);
+            }
+        }
+
+        @keyframes mass-disk-flow {
+            to {
+                stroke-dashoffset: -38;
+            }
+        }
+
+
+        /* =========================================================
+           MISALIGNED ACCRETION DISK ANIMATION
+           ========================================================= */
+
+        .spin-axis {
+            fill: none;
+            stroke: #9eb7c5;
+            stroke-width: 1.4;
+            opacity: 0.58;
+        }
+
+        .misaligned-disk-sheet {
+            fill: url("#misaligned-disk-gradient");
+            opacity: 0.9;
+        }
+
+        .misaligned-disk-rim {
+            fill: none;
+            stroke: rgba(211, 231, 239, 0.48);
+            stroke-width: 1.1;
+        }
+
+        .misaligned-disk-texture {
+            fill: none;
+            stroke: rgba(226, 239, 244, 0.58);
+            stroke-width: 1.3;
+            stroke-linecap: round;
+            stroke-dasharray: 13 9;
+
+            animation: misaligned-disk-flow 1.6s linear infinite;
+        }
+
+        .misaligned-disk-texture.warm {
+            stroke: rgba(232, 174, 117, 0.58);
+            stroke-dasharray: 9 12;
+            animation-duration: 2.15s;
+            animation-direction: reverse;
+        }
+
+        .misaligned-black-hole-shadow {
+            fill: #020304;
+            stroke: #667780;
+            stroke-width: 1.1;
+        }
+
+        @keyframes misaligned-disk-flow {
+            to {
+                stroke-dashoffset: -44;
+            }
+        }
+
+
+        /* =========================================================
+           CONTACT
+           ========================================================= */
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns:
+                minmax(0, 1fr)
+                minmax(250px, 0.55fr);
+
+            gap: 70px;
+        }
+
+        .contact-text {
+            max-width: 670px;
+        }
+
+        .contact-text p {
+            margin: 0;
+
+            color: var(--text-secondary);
+            font-family: var(--serif);
+            font-size: 1.12rem;
+            line-height: 1.8;
+        }
+
+        .contact-details {
+            margin: 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .contact-row {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .contact-row dt {
+            margin-bottom: 4px;
+
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .contact-row dd {
+            margin: 0;
+            font-family: var(--serif);
+        }
+
+        .profile-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 18px;
+        }
+
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        .site-footer {
+            padding: 30px 0 42px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-layout {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .footer-layout p {
+            margin: 0;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+
+        /* =========================================================
+           PAGE REVEAL ANIMATION
+           ========================================================= */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(12px);
+
+            transition:
+                opacity 600ms ease,
+                transform 600ms ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* =========================================================
+           RESPONSIVE DESIGN
+           ========================================================= */
+
+        @media (max-width: 960px) {
+            .research-entry {
+                grid-template-columns: 50px minmax(0, 1fr);
+            }
+
+            .research-animation {
+                grid-column: 2;
+                width: min(100%, 490px);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .introduction {
+                min-height: auto;
+            }
+
+            .introduction-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .headshot-figure {
+                width: min(70vw, 300px);
+                margin-top: 28px;
+            }
+
+            .about-layout {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .about-sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .contact-layout {
+                grid-template-columns: 1fr;
+                gap: 55px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            :root {
+                --header-height: 66px;
+            }
+
+            .page-container {
+                width: min(
+                    calc(100% - 30px),
+                    var(--page-width)
+                );
+            }
+
+            .section {
+                padding: 75px 0;
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: var(--header-height);
+                right: 0;
+                left: 0;
+
+                display: grid;
+                gap: 0;
+
+                padding: 18px 15px 26px;
+
+                border-bottom: 1px solid var(--border);
+
+                background: var(--background);
+
+                opacity: 0;
+                pointer-events: none;
+                transform: translateY(-8px);
+
+                transition:
+                    opacity var(--transition),
+                    transform var(--transition);
+            }
+
+            .nav-links.open {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(0);
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 12px 6px;
+
+                border-bottom: 1px solid var(--border);
+            }
+
+            .introduction {
+                padding:
+                    calc(var(--header-height) + 70px)
+                    0
+                    70px;
+            }
+
+            .intro-title {
+                font-size: clamp(3.2rem, 18vw, 5rem);
+            }
+
+            .headshot-figure {
+                width: min(78vw, 285px);
+            }
+
+            .about-sidebar {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .research-entry {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            .research-animation {
+                grid-column: auto;
+                width: 100%;
+            }
+
+            .footer-layout {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="page-container navigation">
+            <a class="site-name" href="#home">
+                Samuel Feyan
+            </a>
+
+            <button
+                class="menu-button"
+                id="menu-button"
+                type="button"
+                aria-label="Open navigation menu"
+                aria-controls="nav-links"
+                aria-expanded="false"
+            >
+                <span class="menu-line"></span>
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li>
+                    <a href="#research">Research</a>
+                </li>
+
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+
+    <main>
+        <!-- ===================================================
+             INTRODUCTION
+             =================================================== -->
+
+        <section class="introduction" id="home">
+            <div class="page-container introduction-layout">
+                <div class="intro-text reveal">
+                    <p class="intro-label">
+                        Astronomy PhD Student · Harvard University
+                    </p>
+
+                    <h1 class="intro-title">
+                        Samuel Feyan
+                    </h1>
+
+                    <p class="intro-description">
+                        I am a theoretical astrophysicist studying compact
+                        objects and their accretion dynamics. My work examines
+                        how gas behaves around black holes, including unstable
+                        mass transfer and misaligned accretion disks. I use
+                        general relativistic
+                        magnetohydrodynamic simulations, radiative transfer,
+                        stellar-evolution and binary population models to
+                        connect physical models with observable
+                        electromagnetic signatures.
+                    </p>
+
+                    <div class="intro-links">
+                        <a href="#research">
+                            Research overview
+                        </a>
+
+                        <a
+                            href="https://scholar.google.com/citations?user=3_4WxjsAAAAJ&hl=en"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Google Scholar
+                        </a>
+
+                        <a href="#contact">
+                            Contact information
+                        </a>
+                    </div>
+                </div>
+
+                <figure class="headshot-figure reveal">
+                    <div class="headshot-frame">
+                        <img
+                            class="headshot-image"
+                            src="GoogleScholarHeadshotUpdated.jpg"
+                            alt="Headshot of Samuel Feyan"
+                            loading="eager"
+                        >
+                    </div>
+
+                    <figcaption class="headshot-caption">
+                        Samuel Feyan · Harvard University
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+
+        <!-- ===================================================
+             RESEARCH
+             =================================================== -->
+
+        <section class="section" id="research">
+            <div class="page-container">
+                <h2 class="section-heading reveal">
+                    Research
+                </h2>
+
+                <div class="research-list">
+                    <!-- ===========================================
+                         UNSTABLE MASS TRANSFER
+                         =========================================== -->
+
+                    <article class="research-entry reveal">
+                        <div class="research-number">
+                            II.
+                        </div>
+
+                        <div class="research-content">
+                            <h3>
+                                Unstable mass transfer and precursor emission
+                            </h3>
+
+                            <p>
+                                Under the direction of Morgan MacLeod, I model
+                                unstable mass transfer between an evolving star
+                                and a compact-object companion to understand the
+                                electromagnetic emission that may precede their eventual merger. This work leverages stellar evolution 
+                                models, binary
+                                population models, and semi-analytic models of mass transfer rates and light curves for the Vera Rubin
+                                Observatory.
+                            </p>
+                        </div>
+
+                        <figure
+                            class="research-animation"
+                            aria-label="Animated illustration of a star transferring gas into a black-hole accretion disk"
+                        >
+                            <svg
+                                viewBox="0 0 300 250"
+                                role="img"
+                                aria-labelledby="mass-transfer-title mass-transfer-description"
+                            >
+                                <title id="mass-transfer-title">
+                                    Unstable mass transfer
+                                </title>
+
+                                <desc id="mass-transfer-description">
+                                    A donor star transfers gas into the outer
+                                    edge of a thin accretion disk surrounding a
+                                    black hole.
+                                </desc>
+
+                                <defs>
+                                    <radialGradient id="mass-star-gradient">
+                                        <stop
+                                            offset="0%"
+                                            stop-color="#fff3c8"
+                                        />
+
+                                        <stop
+                                            offset="56%"
+                                            stop-color="#e1a45d"
+                                        />
+
+                                        <stop
+                                            offset="100%"
+                                            stop-color="#955c3e"
+                                        />
+                                    </radialGradient>
+
+                                    <linearGradient
+                                        id="mass-stream-gradient"
+                                        x1="0%"
+                                        y1="0%"
+                                        x2="100%"
+                                        y2="0%"
+                                    >
+                                        <stop
+                                            offset="0%"
+                                            stop-color="#d99555"
+                                        />
+
+                                        <stop
+                                            offset="58%"
+                                            stop-color="#ebc991"
+                                        />
+
+                                        <stop
+                                            offset="100%"
+                                            stop-color="#b9d6e3"
+                                        />
+                                    </linearGradient>
+
+                                    <linearGradient
+                                        id="mass-disk-gradient"
+                                        x1="0%"
+                                        y1="0%"
+                                        x2="100%"
+                                        y2="100%"
+                                    >
+                                        <stop
+                                            offset="0%"
+                                            stop-color="#5d7887"
+                                        />
+
+                                        <stop
+                                            offset="32%"
+                                            stop-color="#9dbdcc"
+                                        />
+
+                                        <stop
+                                            offset="58%"
+                                            stop-color="#f0d6aa"
+                                        />
+
+                                        <stop
+                                            offset="78%"
+                                            stop-color="#d78c55"
+                                        />
+
+                                        <stop
+                                            offset="100%"
+                                            stop-color="#647c89"
+                                        />
+                                    </linearGradient>
+
+                                    <filter
+                                        id="mass-star-glow"
+                                        x="-80%"
+                                        y="-80%"
+                                        width="260%"
+                                        height="260%"
+                                    >
+                                        <feGaussianBlur stdDeviation="8" />
+                                    </filter>
+
+                                    <filter
+                                        id="mass-particle-glow"
+                                        x="-250%"
+                                        y="-250%"
+                                        width="500%"
+                                        height="500%"
+                                    >
+                                        <feGaussianBlur
+                                            stdDeviation="2"
+                                            result="blur"
+                                        />
+
+                                        <feMerge>
+                                            <feMergeNode in="blur" />
+                                            <feMergeNode in="SourceGraphic" />
+                                        </feMerge>
+                                    </filter>
+
+                                    <mask
+                                        id="mass-disk-mask"
+                                        maskUnits="userSpaceOnUse"
+                                        x="190"
+                                        y="108"
+                                        width="90"
+                                        height="34"
+                                    >
+                                        <rect
+                                            x="190"
+                                            y="108"
+                                            width="90"
+                                            height="34"
+                                            fill="black"
+                                        />
+
+                                        <ellipse
+                                            cx="235"
+                                            cy="125"
+                                            rx="39"
+                                            ry="12"
+                                            fill="white"
+                                        />
+
+                                        <ellipse
+                                            cx="235"
+                                            cy="125"
+                                            rx="17"
+                                            ry="5"
+                                            fill="black"
+                                        />
+                                    </mask>
+                                </defs>
+
+
+                                <!-- Background stars -->
+
+                                <circle
+                                    class="svg-background-star"
+                                    cx="31"
+                                    cy="38"
+                                    r="1.3"
+                                />
+
+                                <circle
+                                    class="svg-background-star faint"
+                                    cx="125"
+                                    cy="43"
+                                    r="1"
+                                />
+
+                                <circle
+                                    class="svg-background-star"
+                                    cx="258"
+                                    cy="51"
+                                    r="1.2"
+                                />
+
+                                <circle
+                                    class="svg-background-star faint"
+                                    cx="275"
+                                    cy="188"
+                                    r="1.3"
+                                />
+
+                                <circle
+                                    class="svg-background-star"
+                                    cx="139"
+                                    cy="211"
+                                    r="1"
+                                />
+
+                                <circle
+                                    class="svg-background-star faint"
+                                    cx="49"
+                                    cy="194"
+                                    r="1.2"
+                                />
+
+
+                                <g class="mass-binary-system">
+                                    <!-- Donor-star glow -->
+
+                                    <circle
+                                        class="donor-star-glow"
+                                        cx="70"
+                                        cy="126"
+                                        r="42"
+                                        fill="#c78349"
+                                        filter="url(#mass-star-glow)"
+                                    />
+
+
+                                    <!-- Donor star -->
+
+                                    <g class="donor-star">
+                                        <circle
+                                            cx="70"
+                                            cy="126"
+                                            r="31"
+                                            fill="url(#mass-star-gradient)"
+                                        />
+
+                                        <ellipse
+                                            cx="60"
+                                            cy="114"
+                                            rx="8"
+                                            ry="5"
+                                            fill="#fff9d9"
+                                            opacity="0.23"
+                                        />
+                                    </g>
+
+
+                                    <!-- Gas stream -->
+
+                                    <path
+                                        class="mass-stream"
+                                        d="
+                                            M 96 126
+                                            C 127 109, 175 108, 208 117
+                                            C 220 121, 230 124, 235 125
+                                        "
+                                    />
+
+                                    <circle
+                                        class="
+                                            mass-stream-particle
+                                            mass-stream-particle-one
+                                        "
+                                        r="3.2"
+                                    />
+
+                                    <circle
+                                        class="
+                                            mass-stream-particle
+                                            mass-stream-particle-two
+                                        "
+                                        r="2.8"
+                                    />
+
+                                    <circle
+                                        class="
+                                            mass-stream-particle
+                                            mass-stream-particle-three
+                                        "
+                                        r="2.5"
+                                    />
+
+                                    <circle
+                                        class="
+                                            mass-stream-particle
+                                            mass-stream-particle-four
+                                        "
+                                        r="2.2"
+                                    />
+
+
+                                </g>
+
+
+                                <!-- Fixed accretion disk and black hole -->
+
+                                <!-- Filled accretion-disk sheet -->
+
+                                    <g mask="url(#mass-disk-mask)">
+                                    <ellipse
+                                        class="mass-disk-sheet"
+                                        cx="235"
+                                        cy="125"
+                                        rx="39"
+                                        ry="12"
+                                    />
+
+                                    <ellipse
+                                        class="mass-disk-texture"
+                                        cx="235"
+                                        cy="125"
+                                        rx="34"
+                                        ry="9.5"
+                                    />
+
+                                    <ellipse
+                                        class="
+                                            mass-disk-texture
+                                            secondary
+                                        "
+                                        cx="235"
+                                        cy="125"
+                                        rx="27"
+                                        ry="7"
+                                    />
+                                    </g>
+
+                                    <ellipse
+                                        class="mass-disk-rim"
+                                        cx="235"
+                                        cy="125"
+                                        rx="39"
+                                        ry="12"
+                                    />
+
+
+                                    <!-- Black hole -->
+
+                                    <circle
+                                        class="mass-photon-ring"
+                                        cx="235"
+                                        cy="125"
+                                        r="15"
+                                    />
+
+                                    <circle
+                                        class="mass-black-hole"
+                                        cx="235"
+                                        cy="125"
+                                        r="12.5"
+                                    />
+
+                                    <!-- Near side of the disk sits in front of the hole -->
+
+                                    <path
+                                        class="mass-disk-front"
+                                        d="
+                                            M 196 125
+                                            C 202 132 218 137 235 137
+                                            C 252 137 268 132 274 125
+                                            C 264 129 251 132 235 132
+                                            C 219 132 206 129 196 125
+                                            Z
+                                        "
+                                    />
+                            </svg>
+                        </figure>
+                    </article>
+
+
+                    <!-- ===========================================
+                         MISALIGNED ACCRETION DISK
+                         =========================================== -->
+
+                    <article class="research-entry reveal">
+                        <div class="research-number">
+                            I.
+                        </div>
+
+                        <div class="research-content">
+                            <h3>
+                                Misaligned accretion disks around supermassive
+                                black holes
+                            </h3>
+
+                            <p>
+                                Under Michael Johnson, I analyze general
+                                relativistic magnetohydrodynamic simulations of
+                                misaligned accretion disks to determine how disk
+                                misalignment changes the fluid and emissivity
+                                structures surrounding black holes. From these simulations, I use radiative transfer models to 
+                                produce synthetic images at frequencies
+                                relevant to the Event Horizon Telescope and the
+                                Black Hole Explorer.
+                            </p>
+                        </div>
+
+                        <figure
+                            class="research-animation"
+                            aria-label="Animated illustration of a spinning black hole surrounded by a misaligned accretion disk"
+                        >
+                            <svg
+                                viewBox="0 0 300 250"
+                                role="img"
+                                aria-labelledby="misaligned-disk-title misaligned-disk-description"
+                            >
+                                <title id="misaligned-disk-title">
+                                    Misaligned black-hole accretion disk
+                                </title>
+
+                                <desc id="misaligned-disk-description">
+                                    A black hole sits on a vertical spin axis
+                                    while surrounded by a geometrically thick,
+                                    inclined accretion flow.
+                                </desc>
+
+                                <defs>
+                                    <linearGradient
+                                        id="misaligned-disk-gradient"
+                                        x1="0%"
+                                        y1="0%"
+                                        x2="100%"
+                                        y2="100%"
+                                    >
+                                        <stop
+                                            offset="0%"
+                                            stop-color="#526b78"
+                                        />
+
+                                        <stop
+                                            offset="24%"
+                                            stop-color="#799aa9"
+                                        />
+
+                                        <stop
+                                            offset="46%"
+                                            stop-color="#bad4df"
+                                        />
+
+                                        <stop
+                                            offset="64%"
+                                            stop-color="#efd6ab"
+                                        />
+
+                                        <stop
+                                            offset="82%"
+                                            stop-color="#c88355"
+                                        />
+
+                                        <stop
+                                            offset="100%"
+                                            stop-color="#526975"
+                                        />
+                                    </linearGradient>
+
+                                    <marker
+                                        id="spin-axis-arrow"
+                                        markerWidth="7"
+                                        markerHeight="7"
+                                        refX="5"
+                                        refY="3.5"
+                                        orient="auto"
+                                    >
+                                        <path
+                                            d="M 0 0 L 7 3.5 L 0 7"
+                                            fill="none"
+                                            stroke="#9eb7c5"
+                                            stroke-width="1.2"
+                                        />
+                                    </marker>
+
+                                    <mask
+                                        id="misaligned-disk-mask"
+                                        maskUnits="userSpaceOnUse"
+                                        x="46"
+                                        y="86"
+                                        width="208"
+                                        height="78"
+                                    >
+                                        <rect
+                                            x="46"
+                                            y="86"
+                                            width="208"
+                                            height="78"
+                                            fill="black"
+                                        />
+
+                                        <ellipse
+                                            cx="150"
+                                            cy="125"
+                                            rx="96"
+                                            ry="38"
+                                            fill="white"
+                                        />
+
+                                        <ellipse
+                                            cx="150"
+                                            cy="125"
+                                            rx="28"
+                                            ry="12"
+                                            fill="black"
+                                        />
+                                    </mask>
+
+                                    <clipPath id="misaligned-disk-front-half">
+                                        <rect
+                                            x="40"
+                                            y="125"
+                                            width="220"
+                                            height="50"
+                                        />
+                                    </clipPath>
+                                </defs>
+
+
+                                <!-- Background stars -->
+
+                                <circle
+                                    class="svg-background-star"
+                                    cx="37"
+                                    cy="36"
+                                    r="1.3"
+                                />
+
+                                <circle
+                                    class="svg-background-star faint"
+                                    cx="110"
+                                    cy="57"
+                                    r="1"
+                                />
+
+                                <circle
+                                    class="svg-background-star"
+                                    cx="261"
+                                    cy="42"
+                                    r="1.2"
+                                />
+
+                                <circle
+                                    class="svg-background-star faint"
+                                    cx="270"
+                                    cy="202"
+                                    r="1"
+                                />
+
+                                <circle
+                                    class="svg-background-star"
+                                    cx="52"
+                                    cy="204"
+                                    r="1.4"
+                                />
+
+
+                                <!-- Vertical spin axis with upper arrow -->
+
+                                <line
+                                    class="spin-axis"
+                                    x1="150"
+                                    y1="218"
+                                    x2="150"
+                                    y2="31"
+                                    marker-end="url(#spin-axis-arrow)"
+                                />
+
+
+                                <!-- Filled, geometrically thick misaligned disk -->
+
+                                <g transform="rotate(-45 150 125)">
+                                    <g mask="url(#misaligned-disk-mask)">
+                                        <ellipse
+                                            class="misaligned-disk-sheet"
+                                            cx="150"
+                                            cy="125"
+                                            rx="96"
+                                            ry="38"
+                                        />
+
+                                        <ellipse
+                                            class="misaligned-disk-texture"
+                                            cx="150"
+                                            cy="125"
+                                            rx="84"
+                                            ry="31"
+                                        />
+
+                                        <ellipse
+                                            class="
+                                                misaligned-disk-texture
+                                                warm
+                                            "
+                                            cx="150"
+                                            cy="125"
+                                            rx="66"
+                                            ry="24"
+                                        />
+
+                                        <ellipse
+                                            class="misaligned-disk-texture"
+                                            cx="150"
+                                            cy="125"
+                                            rx="45"
+                                            ry="16"
+                                        />
+                                    </g>
+
+                                    <ellipse
+                                        class="misaligned-disk-rim"
+                                        cx="150"
+                                        cy="125"
+                                        rx="96"
+                                        ry="38"
+                                    />
+                                </g>
+
+
+                                <!-- Static black hole -->
+
+                                <g>
+                                    <circle
+                                        class="misaligned-black-hole-shadow"
+                                        cx="150"
+                                        cy="125"
+                                        r="19"
+                                    />
+                                </g>
+
+
+                                <!-- Smooth near-half disk surface, in front of the black hole -->
+
+                                <g transform="rotate(-45 150 125)">
+                                    <g clip-path="url(#misaligned-disk-front-half)" mask="url(#misaligned-disk-mask)">
+                                        <ellipse
+                                            class="misaligned-disk-sheet"
+                                            cx="150"
+                                            cy="125"
+                                            rx="96"
+                                            ry="38"
+                                        />
+
+                                        <ellipse
+                                            class="misaligned-disk-texture warm"
+                                            cx="150"
+                                            cy="125"
+                                            rx="66"
+                                            ry="24"
+                                        />
+                                    </g>
+                                </g>
+                            </svg>
+                        </figure>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================
+             CONTACT
+             =================================================== -->
+
+        <section class="section" id="contact">
+            <div class="page-container">
+                <h2 class="section-heading reveal">
+                    Contact
+                </h2>
+
+                <div class="contact-layout">
+                    <div class="contact-text reveal">
+                        <p>
+                            I welcome anyone interested in discussing research or collaborating
+                            on a related project to get in touch.
+                        </p>
+                    </div>
+
+                    <dl class="contact-details reveal">
+                        <div class="contact-row">
+                            <dt>Email</dt>
+
+                            <dd>
+                                <a href="mailto:sfeyan@g.harvard.edu">
+                                    sfeyan@g.harvard.edu
+                                </a>
+                            </dd>
+                        </div>
+
+                        <div class="contact-row">
+                            <dt>Institution</dt>
+
+                            <dd>
+                                Harvard University
+                            </dd>
+                        </div>
+
+                        <div class="contact-row">
+                            <dt>Location</dt>
+
+                            <dd>
+                                Cambridge, Massachusetts
+                            </dd>
+                        </div>
+
+                        <div class="contact-row">
+                            <dt>Research profiles</dt>
+
+                            <dd class="profile-links">
+                                <a
+                                    href="https://scholar.google.com/citations?user=3_4WxjsAAAAJ&hl=en"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Google Scholar
+                                </a>
+
+                                <a
+                                    href="https://orcid.org/0009-0006-4435-0418"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    ORCID
+                                </a>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- =======================================================
+         FOOTER
+         ======================================================= -->
+
+    <footer class="site-footer">
+        <div class="page-container footer-layout">
+            <p>
+                © <span id="current-year"></span> Samuel Feyan
+            </p>
+
+            <div class="footer-links">
+                <a href="#home">
+                    Back to top
+                </a>
+
+                <a
+                    href="https://scholar.google.com/citations?user=3_4WxjsAAAAJ&hl=en"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Google Scholar
+                </a>
+
+                <a
+                    href="https://orcid.org/0009-0006-4435-0418"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    ORCID
+                </a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        /* =====================================================
+           MOBILE NAVIGATION
+           ===================================================== */
+
+        const menuButton =
+            document.getElementById("menu-button");
+
+        const navigationLinksContainer =
+            document.getElementById("nav-links");
+
+        const navigationLinks =
+            navigationLinksContainer.querySelectorAll('a[href^="#"]');
+
+        function closeNavigationMenu() {
+            menuButton.setAttribute("aria-expanded", "false");
+            navigationLinksContainer.classList.remove("open");
+            document.body.classList.remove("menu-open");
+        }
+
+        menuButton.addEventListener("click", () => {
+            const isOpen =
+                menuButton.getAttribute("aria-expanded") === "true";
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
+
+            navigationLinksContainer.classList.toggle("open");
+            document.body.classList.toggle("menu-open");
+        });
+
+        navigationLinks.forEach((link) => {
+            link.addEventListener("click", closeNavigationMenu);
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeNavigationMenu();
+            }
+        });
+
+
+        /* =====================================================
+           HEADER BORDER
+           ===================================================== */
+
+        const siteHeader =
+            document.getElementById("site-header");
+
+        function updateHeader() {
+            siteHeader.classList.toggle(
+                "scrolled",
+                window.scrollY > 10
+            );
+        }
+
+        updateHeader();
+
+        window.addEventListener("scroll", updateHeader, {
+            passive: true
+        });
+
+
+        /* =====================================================
+           SCROLL REVEAL
+           ===================================================== */
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+        const prefersReducedMotion =
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches;
+
+        if (prefersReducedMotion) {
+            revealElements.forEach((element) => {
+                element.classList.add("visible");
+            });
+        } else {
+            const revealObserver =
+                new IntersectionObserver(
+                    (entries, observer) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add("visible");
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    {
+                        threshold: 0.1
+                    }
+                );
+
+            revealElements.forEach((element) => {
+                revealObserver.observe(element);
+            });
+        }
+
+
+        /* =====================================================
+           ACTIVE NAVIGATION LINK
+           ===================================================== */
+
+        const sections =
+            document.querySelectorAll("main section[id]");
+
+        const activeSectionObserver =
+            new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) {
+                            return;
+                        }
+
+                        navigationLinks.forEach((link) => {
+                            const sectionId =
+                                link.getAttribute("href").slice(1);
+
+                            link.classList.toggle(
+                                "active",
+                                sectionId === entry.target.id
+                            );
+                        });
+                    });
+                },
+                {
+                    rootMargin: "-35% 0px -58% 0px"
+                }
+            );
+
+        sections.forEach((section) => {
+            activeSectionObserver.observe(section);
+        });
+
+
+        /* =====================================================
+           AUTOMATIC COPYRIGHT YEAR
+           ===================================================== */
+
+        document.getElementById("current-year").textContent =
+            new Date().getFullYear();
+    </script>
+</body>
+</html>
